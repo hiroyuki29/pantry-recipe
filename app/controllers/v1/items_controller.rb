@@ -1,6 +1,7 @@
 module V1
   class V1::ItemsController < ApplicationController
     before_action :set_item, only: [:show, :update, :destroy]
+    before_action :authenticate_v1_user!
 
     def index
         items = Item.order(id: :desc)
@@ -40,7 +41,8 @@ module V1
     end
 
     def item_params
-        params.requier(:item).permit(:name, :category_id, :master_food_id, :unit_quantity)
+        params.require(:item).permit(:name, :category_id, :master_food_id, :user_id, :unit_quantity)
+    end
   end
 
 end
