@@ -18,5 +18,6 @@ deploy:
     docker build -t registry.heroku.com/$HEROKU_APP_NAME/web -f Dockerfile.prod .;
     docker push registry.heroku.com/$HEROKU_APP_NAME/web;
     heroku run --app $HEROKU_APP_NAME rails db:migrate;
+  skip_cleanup: true
   on:
     branch: master
