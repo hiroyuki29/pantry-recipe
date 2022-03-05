@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  category: one
+  master_food: one
+  user: one
+  unit_quantity: 1
+
+two:
+  name: MyString
+  category: two
+  master_food: two
+  user: two
+  unit_quantity: 1

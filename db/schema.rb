@@ -10,10 +10,47 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_03_05_074744) do
+ActiveRecord::Schema.define(version: 2022_03_05_113431) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "categories", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "items", force: :cascade do |t|
+    t.string "name"
+    t.bigint "category_id"
+    t.bigint "master_food_id"
+    t.bigint "user_id"
+    t.integer "unit_quantity"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["category_id"], name: "index_items_on_category_id"
+    t.index ["master_food_id"], name: "index_items_on_master_food_id"
+    t.index ["user_id"], name: "index_items_on_user_id"
+  end
+
+  create_table "master_foods", force: :cascade do |t|
+    t.string "name"
+    t.bigint "category_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["category_id"], name: "index_master_foods_on_category_id"
+  end
+
+  create_table "pantries", force: :cascade do |t|
+    t.integer "quantity"
+    t.bigint "user_id"
+    t.bigint "item_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["item_id"], name: "index_pantries_on_item_id"
+    t.index ["user_id"], name: "index_pantries_on_user_id"
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "provider", default: "email", null: false
@@ -40,4 +77,10 @@ ActiveRecord::Schema.define(version: 2022_03_05_074744) do
     t.index ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true
   end
 
+  add_foreign_key "items", "categories"
+  add_foreign_key "items", "master_foods"
+  add_foreign_key "items", "users"
+  add_foreign_key "master_foods", "categories"
+  add_foreign_key "pantries", "items"
+  add_foreign_key "pantries", "users"
 end
