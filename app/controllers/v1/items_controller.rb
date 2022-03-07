@@ -41,7 +41,7 @@ module V1
     end
 
     def item_params
-        params.require(:item).permit(:name, :category_id, :master_food_id, :user_id, :unit_quantity)
+        params.permit(:name, :category_id, :master_food_id, :user_id, :unit_quantity)
     end
   end
 
