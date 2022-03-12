@@ -4,7 +4,9 @@ module V1
     before_action :authenticate_v1_user!
 
     def index
-        items = Item.order(id: :desc)
+        # user_id = @current_v1_user.id
+        # items = Item.where(user_id: user_id).order(category_id: :asc)
+        items = current_v1_user.items_had_user
         render json: { status: 'SUCCESS', message: 'Loaded items', data: items }
     end
 
@@ -41,7 +43,7 @@ module V1
     end
 
     def item_params
-        params.permit(:name, :category_id, :master_food_id, :user_id, :unit_quantity)
+        params.permit(:name, :category_id, :master_food_id, :unit_quantity)
     end
   end
 
