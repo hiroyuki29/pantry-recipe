@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_03_10_124515) do
+ActiveRecord::Schema.define(version: 2022_03_12_080831) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -41,6 +41,35 @@ ActiveRecord::Schema.define(version: 2022_03_10_124515) do
     t.index ["category_id"], name: "index_master_foods_on_category_id"
   end
 
+  create_table "memo_items", force: :cascade do |t|
+    t.integer "quantity"
+    t.boolean "done", default: false, null: false
+    t.bigint "item_id"
+    t.bigint "memo_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["item_id", "memo_id"], name: "index_memo_items_on_item_id_and_memo_id", unique: true
+    t.index ["item_id"], name: "index_memo_items_on_item_id"
+    t.index ["memo_id"], name: "index_memo_items_on_memo_id"
+  end
+
+  create_table "memo_users", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "memo_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["memo_id"], name: "index_memo_users_on_memo_id"
+    t.index ["user_id", "memo_id"], name: "index_memo_users_on_user_id_and_memo_id", unique: true
+    t.index ["user_id"], name: "index_memo_users_on_user_id"
+  end
+
+  create_table "memos", force: :cascade do |t|
+    t.string "name"
+    t.string "password"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "pantries", force: :cascade do |t|
     t.integer "quantity"
     t.bigint "user_id", null: false
@@ -58,6 +87,7 @@ ActiveRecord::Schema.define(version: 2022_03_10_124515) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["item_id"], name: "index_user_items_on_item_id"
+    t.index ["user_id", "item_id"], name: "index_user_items_on_user_id_and_item_id", unique: true
     t.index ["user_id"], name: "index_user_items_on_user_id"
   end
 
@@ -89,6 +119,10 @@ ActiveRecord::Schema.define(version: 2022_03_10_124515) do
   add_foreign_key "items", "categories"
   add_foreign_key "items", "master_foods"
   add_foreign_key "master_foods", "categories"
+  add_foreign_key "memo_items", "items"
+  add_foreign_key "memo_items", "memos"
+  add_foreign_key "memo_users", "memos"
+  add_foreign_key "memo_users", "users"
   add_foreign_key "pantries", "items"
   add_foreign_key "pantries", "users"
   add_foreign_key "user_items", "items"
