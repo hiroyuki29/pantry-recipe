@@ -4,7 +4,7 @@ module V1
     before_action :authenticate_v1_user!
 
     def index
-      items = current_v1_user.pantry_items.joins(:pantries).preload(:pantries).select('pantries.*, items.name, items.category_id, items.master_food_id')
+      items = current_v1_user.pantry_items.preload(:pantries).select('pantries.*, items.name, items.category_id, items.master_food_id')
       render json: { status: 'SUCCESS', data: items }
     end
 
@@ -15,14 +15,13 @@ module V1
     end
 
     def destroy
-      # item = current_v1_user.pantries.find_by(params[:id]).item
-      # current_v1_user.remove_from_pantry(item)
       pantry_item = current_v1_user.pantries.find(params[:id])
       pantry_item.destroy
-      ender json: { status: 'SUCCESS', data: item }
+      ender json: { status: 'SUCCESS', data: pantry_item }
     end
 
     def update
+      binding.pry
       if @pantry.update(pantry_params)
           render json: { status: 'SUCCESS', message: 'Update the item', data: @pantry }
       else
@@ -37,6 +36,22 @@ module V1
           render json: { status: 'SUCCESS', message: 'Update the item', data: pantry }
       else
           render json: { status: 'ERROR', message: 'Not updated', data: pantry.errors }
+      end
+    end
+
+    def move_from_memo
+      pantry = Pantry.find_by(item_id: params[:item_id])
+      if pantry
+        pantry.quantity += params[:quantity]
+        if pantry.save
+          render json: { status: 'SUCCESS', message: 'Update the item', data: pantry }
+        else
+          render json: { status: 'ERROR', message: 'Not updated', data: pantry.errors }
+        end
+      else
+        item = Item.find(params[:item_id])
+        current_v1_user.store_to_pantry(item, item.unit_quantity)
+        render json: { status: 'SUCCESS', data: item }
       end
     end
 

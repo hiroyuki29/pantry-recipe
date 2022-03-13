@@ -6,5 +6,6 @@ class CreateMemoUsers < ActiveRecord::Migration[5.2]
 
       t.timestamps
     end
+    add_index :memo_users, [:user_id, :memo_id], unique: true
   end
 end
