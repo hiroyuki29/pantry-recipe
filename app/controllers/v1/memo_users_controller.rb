@@ -3,7 +3,6 @@ module V1
     before_action :authenticate_v1_user!
 
     def index
-      # memos = current_v1_user.memos.joins(:memo_users).preload(:memo_users).select('memo_users.*, memos.name, memos.password')
       memos = current_v1_user.memos
       render json: { status: 'SUCCESS', data: memos }
     end

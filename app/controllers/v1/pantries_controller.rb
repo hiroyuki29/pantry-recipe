@@ -21,7 +21,6 @@ module V1
     end
 
     def update
-      binding.pry
       if @pantry.update(pantry_params)
           render json: { status: 'SUCCESS', message: 'Update the item', data: @pantry }
       else

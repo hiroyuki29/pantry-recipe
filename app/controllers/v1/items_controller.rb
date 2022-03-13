@@ -4,8 +4,6 @@ module V1
     before_action :authenticate_v1_user!
 
     def index
-        # user_id = @current_v1_user.id
-        # items = Item.where(user_id: user_id).order(category_id: :asc)
         items = current_v1_user.items_had_user
         render json: { status: 'SUCCESS', message: 'Loaded items', data: items }
     end
