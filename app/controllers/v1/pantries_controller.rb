@@ -4,7 +4,7 @@ module V1
     before_action :authenticate_v1_user!
 
     def index
-      items = current_v1_user.pantry_items.preload(:pantries).select('pantries.*, items.name, items.category_id, items.master_food_id')
+      items = current_v1_user.pantry_items.preload(:pantries).select('pantries.*, items.name, items.category_id, items.master_food_id').order(:category_id, :item_id)
       render json: { status: 'SUCCESS', data: items }
     end
 

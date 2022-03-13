@@ -2,7 +2,7 @@ module V1
   class V1::UserItemsController < ApplicationController
 
     def index
-      items = current_v1_user.items
+      items = current_v1_user.items.order(:category_id, :item_id)
       render json: { status: 'SUCCESS', data: items }
     end
     def create
