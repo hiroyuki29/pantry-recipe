@@ -49,7 +49,7 @@ module V1
         end
       else
         item = Item.find(params[:item_id])
-        current_v1_user.store_to_pantry(item, item.unit_quantity)
+        current_v1_user.store_to_pantry(item, params[:quantity])
         render json: { status: 'SUCCESS', data: item }
       end
     end
