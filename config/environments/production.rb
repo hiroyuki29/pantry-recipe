@@ -65,7 +65,7 @@ Rails.application.configure do
     :address        => ENV['MAILGUN_SMTP_SERVER'],
     :user_name      => ENV['MAILGUN_SMTP_LOGIN'],
     :password       => ENV['MAILGUN_SMTP_PASSWORD'],
-    :domain         => 'https://nasuhiro-pantry-recipe.herokuapp.com/',
+    :domain         => 'https://nasuhiro-pantry-recipe.herokuapp.com',
     :authentication => :plain,
   }
 
