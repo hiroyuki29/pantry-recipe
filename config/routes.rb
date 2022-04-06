@@ -16,5 +16,9 @@ Rails.application.routes.draw do
     end
     resources :master_foods, only: [:index]
     resources :categories, only: [:index]
+
+    if Rails.env.development?
+      mount LetterOpenerWeb::Engine, at: "/letter_opener"
+    end
   end
 end
