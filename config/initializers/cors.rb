@@ -7,8 +7,8 @@
 
 Rails.application.config.middleware.insert_before 0, Rack::Cors do
   allow do
-    origins '*' 
-    # origins 'https://pantry-recipe-flutter.web.app' 
+    # origins '*' 
+    origins 'https://pantry-recipe-flutter.web.app' 
 
     resource '*',
       headers: :any,
