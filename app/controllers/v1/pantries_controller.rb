@@ -17,7 +17,7 @@ module V1
     def destroy
       pantry_item = current_v1_user.pantries.find(params[:id])
       pantry_item.destroy
-      ender json: { status: 'SUCCESS', data: pantry_item }
+      render json: { status: 'SUCCESS', data: pantry_item }
     end
 
     def update

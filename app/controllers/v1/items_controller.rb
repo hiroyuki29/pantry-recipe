@@ -13,11 +13,16 @@ module V1
     end
 
     def create
-        item = Item.new(item_params)
-        if item.save
-            render json: { status: 'SUCCESS', data: item }
+        # item = Item.new(item_params)
+        item = Item.find_or_initialize_by(item_params)
+        if item.new_record?
+          if item.save
+              render json: { status: 'SUCCESS', data: item }
+          else
+              render json: { status: 'ERROR', data: item.errors }
+          end
         else
-            render json: { status: 'ERROR', data: item.errors }
+          render json: { status: 'SUCCESS', data: item }
         end
     end
 
