@@ -11,7 +11,7 @@ module V1
     def create
       memo = Memo.find(params[:memo_id])
       item = Item.find(params[:item_id])
-      memo.store_to_memo_item(item, item.unit_quantity)
+      memo.store_to_memo_item(item, params[:quantity])
       render json: { status: 'SUCCESS', data: item }
     end
 
